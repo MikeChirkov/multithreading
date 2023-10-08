@@ -1,6 +1,9 @@
 package ru.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.*;
 
 public class Main {
@@ -23,7 +26,7 @@ public class Main {
         }
 
         List<Integer> listOfMax = new ArrayList<>();
-        for (Future<Integer> future: futureList) {
+        for (Future<Integer> future : futureList) {
             listOfMax.add(future.get());
         }
 

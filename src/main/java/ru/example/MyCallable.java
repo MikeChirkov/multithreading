@@ -9,6 +9,7 @@ public class MyCallable implements Callable<Integer> {
     public MyCallable(String text) {
         this.text = text;
     }
+
     @Override
     public Integer call() throws Exception {
         int maxSize = 0;
