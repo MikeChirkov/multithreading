@@ -1,32 +1,37 @@
 package ru.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         String[] texts = new String[25];
         for (int i = 0; i < texts.length; i++) {
             texts[i] = generateText("aab", 30_000);
         }
 
-        List<Thread> threads = new ArrayList<>();
+        List<Future<Integer>> futureList = new ArrayList<>();
+        ExecutorService threadPool = Executors.newFixedThreadPool(25);
+
         long startTs = System.currentTimeMillis(); // start time
 
         for (String text : texts) {
-            Thread thread = new Thread(new MyTextThread(text));
-            thread.start();
-            threads.add(thread);
+            Callable<Integer> myCallable = new MyCallable(text);
+            Future<Integer> newFuture = threadPool.submit(myCallable);
+            futureList.add(newFuture);
         }
 
-        for (Thread thread : threads) {
-            thread.join(); // зависаем, ждём когда поток объект которого лежит в thread завершится
+        List<Integer> listOfMax = new ArrayList<>();
+        for (Future<Integer> future: futureList) {
+            listOfMax.add(future.get());
         }
+
+        threadPool.shutdown();
 
         long endTs = System.currentTimeMillis(); // end time
 
+        System.out.println("Max: " + Collections.max(listOfMax));
         System.out.println("Time: " + (endTs - startTs) + "ms");
     }
 
