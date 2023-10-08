@@ -1,10 +1,10 @@
 package ru.example;
 
-public class MyTextThread implements Runnable {
+public class MyRunnable implements Runnable {
 
     private final String text;
 
-    public MyTextThread(String text) {
+    public MyRunnable(String text) {
         this.text = text;
     }
 

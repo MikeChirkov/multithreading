@@ -16,7 +16,7 @@ public class Main {
         long startTs = System.currentTimeMillis(); // start time
 
         for (String text : texts) {
-            Thread thread = new Thread(new MyTextThread(text));
+            Thread thread = new Thread(new MyRunnable(text));
             thread.start();
             threads.add(thread);
         }
